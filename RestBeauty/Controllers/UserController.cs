@@ -18,20 +18,38 @@ namespace RestBeauty.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            List<User> userList = new();
-            LogicaNegocio srv = new();
-            userList = srv.GetUsers();
-            if (userList.Count>0)
-                return Ok(userList);
-            return NotFound(new { message = "Items Not Found" });
-
+            try
+            {
+                List<User> userList = new();
+                LogicaNegocio srv = new();
+                userList = srv.GetUsers();
+                if (userList.Count>0)
+                    return Ok(userList);
+                return NotFound(new { message = "Items Not Found" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         // GET: api/User/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            try
+            {
+                User user = new();
+                LogicaNegocio srv = new();
+                user = srv.GetUserId(id);
+                if(user != null) 
+                    return Ok(user);
+                return NotFound(new { message = "Item Not Found" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         // POST: api/User

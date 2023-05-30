@@ -28,6 +28,29 @@ public class UserServices
         return userList;
     }
 
+    public User GetUserId(int id)
+    {
+        User user = new();
+        MySqlConnection conexion = DbServices.ObtenerConexion();
+        try
+        {
+            user = conexion.QueryFirstOrDefault<User>(" SELECT * FROM Users WHERE Id = @id ",new { id = id });
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        finally
+        {
+            conexion.Close();
+            conexion.Dispose();
+            MySqlConnection.ClearPool(conexion);
+        }
+
+        return user;
+    }
+
     public bool InsertUser(User user)
     {
         MySqlConnection conexion = DbServices.ObtenerConexion();
