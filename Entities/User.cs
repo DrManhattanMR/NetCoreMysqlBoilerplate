@@ -14,7 +14,3 @@ public class User
     public bool Verificado { get; set; }
 }
 
-public class UserList : List<User>
-{
-    
-}
